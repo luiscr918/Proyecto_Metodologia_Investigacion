@@ -7,9 +7,9 @@ import { Profesores } from '../pages/Profesores';
 
 const AppRoutes = () => {
   return (
-    <Routes>
+    <Routes >
       {/**aqui como es la raiz se pone la pagina principal */}
-      <Route path="/" element={<MainForm />} />
+      <Route  path="/" element={<MainForm  />} />
       {/* aqui van todas mis rutitas de la barra de navegacion*/}
       {/* <Route path="/navbar/*" element={<NavBarRutas />} /> */}
       

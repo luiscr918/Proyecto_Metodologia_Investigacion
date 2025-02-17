@@ -5,7 +5,7 @@ export const Profesores = () => {
     <>
       <div className="contenedor-principal">
         <div className="contenedor-info">
-          <p >PERIODO ACADEMICO</p>
+          <p >PERIODO ACADEMICO 20255485</p>
           <p>TUTOR PROF.</p>
 
         </div>
@@ -18,7 +18,7 @@ export const Profesores = () => {
       <div className="container">
         <div className="registro-container mx-auto">
           <form className="mx-auto" action="/validar" method="post">
-            <h4 className="text-center textF">Registro de Prácticas Vinculación</h4>
+            <h4 className="text-center textF">Registro de kPrácticas Vinculación</h4>
             <div className="mb-3 mt-3">
               <label htmlFor="nombre" className="form-label tituloF">Hora inicio:</label>
               <input type="number" className="form-control" name="hI" id="horaI" />

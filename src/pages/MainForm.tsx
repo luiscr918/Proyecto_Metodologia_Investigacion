@@ -1,26 +1,41 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-interface Login{
-    email:string;
-    password:string;
+interface Login {
+    email: string;
+    password: string;
 }
 
 export const MainForm = () => {
     //hook useState para mostrar u ocultar la constrasenia
     const [showPassword, setShowpassword] = useState<boolean>(false);
+    //navigate para navegar entre paginas
+    const navigate = useNavigate();
     //usando useState para manejar inputs
     const [form, setForm] = useState<Login>({
-        email:'',
-        password:''
+        email: '',
+        password: ''
     });
-
-    //funciones momentanea para navegar entre paginas
-    const navigate = useNavigate();
-    const irProfesores = () => {
-
-        navigate('/profesores');
+    //funcion para el cambio de valores del input
+    const handleChangeForm = (name: string, value: string): void => {
+        setForm({ ...form, [name]: value });
     }
+
+
+    //Inicio de sesion
+    const loginUser = (): void => {
+        if (form.email === '' || form.password === '') {
+            alert('porfavor llene todos los campos');
+            return;
+        }
+        if (!form.email.includes('@') && !form.email.includes('.com')) {
+            alert('Correo Invalido porfavor ingrese de nuevo');
+            return;
+        }
+        navigate('/profesores');
+
+    }
+
 
     return (
         <div className="fondoMaster">
@@ -30,21 +45,21 @@ export const MainForm = () => {
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                Sign in to your account 
+                                Sign in to your account
                             </h1>
                             <form className="space-y-4 md:space-y-6 relative" action="#">
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                    <input type="email" name="email" id="email" 
-                                    
-                                    className="transition-all duration-300 hover:bg-blue-100  bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
+                                    <input type="email" name="email" id="email"
+                                        onChange={(e) => handleChangeForm('email', e.target.value)}
+                                        className="transition-all duration-300 hover:bg-blue-100  bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                    <input type={showPassword ? 'password' : 'text'} 
-                                    
-                                    name="password" id="password" placeholder="••••••••" 
-                                    className="transition-all duration-300 hover:bg-blue-100  bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                    <input type={showPassword ? 'password' : 'text'}
+                                        onChange={(e) => handleChangeForm('password', e.target.value)}
+                                        name="password" id="password" placeholder="••••••••"
+                                        className="transition-all duration-300 hover:bg-blue-100  bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                                     {/* //botoncito de mostrar contraseña */}
 
                                     <button
@@ -63,7 +78,7 @@ export const MainForm = () => {
                                 </div>
 
                                 <button type="submit"
-                                    onClick={irProfesores}
+                                    onClick={loginUser}
                                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300
                                   font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors duration-500 dark:bg-blue-700
                                  dark:hover:bg-blue-400 dark:focus:ring-primary-800">Sign in</button>

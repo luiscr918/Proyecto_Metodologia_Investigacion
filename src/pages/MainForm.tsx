@@ -32,7 +32,7 @@ export const MainForm = () => {
             alert('Correo Invalido porfavor ingrese de nuevo');
             return;
         }
-        navigate('/profesores');
+        navigate('/estudiantes');
 
     }
 

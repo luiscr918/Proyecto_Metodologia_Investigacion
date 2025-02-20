@@ -26,18 +26,27 @@ async function connectDB() {
   }
 }
 
-// Ruta GET para obtener estudiantes
-app.get("/api/estudiantes", async (req, res) => {
-  const SQL_QUERY = "SELECT * FROM estudiantes"; // Corrección en el nombre de la tabla
-
+// Ruta GET para obtener la información de un estudiante específico
+app.get("/api/estudiantes/:ci_estudiante", async (req, res) => {
+  const { ci_estudiante } = req.params;
+  
   try {
-    const [result] = await DB.query(SQL_QUERY);
-    res.json(result);
+    const [estudiante] = await DB.query(
+      "SELECT * FROM estudiantes WHERE ci_estudiante = ?",
+      [ci_estudiante]
+    );
+
+    if (estudiante.length === 0) {
+      return res.status(404).json({ error: "Estudiante no encontrado" });
+    }
+
+    res.json(estudiante[0]); // Enviar solo el primer resultado
   } catch (err) {
     console.error("Error en la consulta:", err);
     res.status(500).json({ error: "Error al procesar la solicitud" });
   }
 });
+
 
 // Ruta POST para login
 app.post("/api/login", async (req, res) => {
@@ -70,6 +79,7 @@ app.post("/api/login", async (req, res) => {
     return res.status(500).json({ error: "Error al procesar la solicitud" });
   }
 });
+
 
 // Conectar a la base de datos y luego iniciar el servidor
 connectDB().then(() => {

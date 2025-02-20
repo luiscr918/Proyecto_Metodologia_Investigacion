@@ -38,8 +38,10 @@ export const MainForm = () => {
             if (response.ok) {
                 localStorage.setItem("user", JSON.stringify(data.user)); // Guardar usuario
                 if (data.user.rol === "estudiante") {
+                    localStorage.setItem("ci_estudiante", data.user.ci_estudiante); // Guardar CI del estudiante
                     navigate("/estudiantes");
                 } else if (data.user.rol === "profesor") {
+                    localStorage.setItem("ci_profesor", data.user.ci_profesor); // Guardar CI del profesor
                     navigate("/profesores");
                 }
             } else {

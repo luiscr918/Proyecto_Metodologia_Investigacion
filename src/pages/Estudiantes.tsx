@@ -10,42 +10,49 @@ export const Estudiantes = () => {
     primer_apellido: string;
   }
 
-  const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
-  //metodo para hacer un fetch al servidor
-  const fetchEstudiantes = async () => {
+  const [estudiante, setEstudiante] = useState<Estudiante | null>(null);
+  // Método para obtener el estudiante que ha iniciado sesión
+  const fetchEstudiante = async () => {
+    const ci_estudiante = localStorage.getItem("ci_estudiante"); // Obtener el ID del estudiante logueado
+
+    if (!ci_estudiante) {
+      console.log("No hay estudiante logueado.");
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:3001/api/estudiantes');
+      const response = await fetch(`http://localhost:3001/api/estudiantes/${ci_estudiante}`);
       if (!response.ok) {
-        throw new Error('Error al obtener los datos del servidor');
+        throw new Error("Error al obtener los datos del servidor");
       }
       const data = await response.json();
-      setEstudiantes(data);
+      setEstudiante(data);
     } catch (error) {
-      console.log('Error al obtener los estudiantes')
+      console.log("Error al obtener el estudiante:", error);
     }
-  }
-  //useEffect para gestionar la peticion del servidor
+  };
+  // useEffect para obtener los datos al cargar la página
   useEffect(() => {
-    fetchEstudiantes();
-
+    fetchEstudiante();
   }, []);
-  console.log(estudiantes)
+
 
   return (
     <div className="container m-5">
-      <h1>Lista estudiante</h1>
-      <div className="container">
-        {estudiantes.map((elemento) => (
-          <div className="card" key={elemento.ci_estudiante}>
-            <h3>{elemento.ci_estudiante}</h3>
-            <h3>{elemento.primer_nombre.concat(' ', elemento.primer_apellido)}</h3>
-
-          </div>))
-
-        }
-
-      </div>
-      <hr />
+      <h1>Datos del Estudiante</h1>
+      {estudiante
+        ?
+        (
+          <div className="card">
+            <h3>{estudiante.ci_estudiante}</h3>
+            <h3>{estudiante.primer_nombre} {estudiante.primer_apellido}</h3>
+            <p>Email: {estudiante.email}</p>
+          </div>
+        )
+        :
+        (
+          <p>Cargando información del estudiante...</p>
+        )}
     </div>
-  )
-}
+  );
+};

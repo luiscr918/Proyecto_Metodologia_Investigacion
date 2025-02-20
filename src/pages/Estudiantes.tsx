@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
-
-
+//no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
+interface Estudiante {
+  ci_estudiante: string;
+  email: string;
+  contrasenia: string;
+  primer_nombre: string
+  primer_apellido: string;
+}
 export const Estudiantes = () => {
-  interface Estudiante {
-    ci_estudiante: string;
-    email: string;
-    contrasenia: string;
-    primer_nombre: string
-    primer_apellido: string;
-  }
 
+//DESDE AQUI TAMPOCO BORRAR
   const [estudiante, setEstudiante] = useState<Estudiante | null>(null);
   // Método para obtener el estudiante que ha iniciado sesión
   const fetchEstudiante = async () => {
@@ -35,7 +35,7 @@ export const Estudiantes = () => {
   useEffect(() => {
     fetchEstudiante();
   }, []);
-
+//HASTA AQUI A PARTIR DE AQUI SI HACER LO QUE SEA
 
   return (
     <div className="container m-5">

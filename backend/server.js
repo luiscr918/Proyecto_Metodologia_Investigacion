@@ -46,6 +46,26 @@ app.get("/api/estudiantes/:ci_estudiante", async (req, res) => {
     res.status(500).json({ error: "Error al procesar la solicitud" });
   }
 });
+// Ruta GET para obtener la información de un profesor específico
+app.get("/api/profesores/:ci_profesor", async (req, res) => {
+  const { ci_profesor } = req.params;
+  
+  try {
+    const [profesor] = await DB.query(
+      "SELECT * FROM profesores WHERE ci_profesor = ?",
+      [ci_profesor]
+    );
+
+    if (profesor.length === 0) {
+      return res.status(404).json({ error: "Profesor no encontrado" });
+    }
+
+    res.json(profesor[0]); // Enviar solo el primer resultado
+  } catch (err) {
+    console.error("Error en la consulta:", err);
+    res.status(500).json({ error: "Error al procesar la solicitud" });
+  }
+});
 
 
 // Ruta POST para login

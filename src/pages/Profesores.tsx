@@ -1,6 +1,42 @@
-
+import { useEffect, useState } from "react"
+//no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
+interface Profesor {
+  ci_profesor: string;
+  ci_estudiante: string;
+  email: string;
+  contrasenia: string;
+  primer_nombre: string
+  primer_apellido: string;
+}
 
 export const Profesores = () => {
+//DESDE AQUI TAMPOCO BORRAR
+  const [profesor, setProfesor] = useState<Profesor | null>(null);
+  // Método para obtener el profesor que ha iniciado sesión
+  const fetchProfesor = async () => {
+    const ci_profesor = localStorage.getItem("ci_profesor"); // Obtener el ID del profesor logueado
+
+    if (!ci_profesor) {
+      console.log("No hay profesor logueado.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/profesores/${ci_profesor}`);
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos del servidor");
+      }
+      const data = await response.json();
+      setProfesor(data);
+    } catch (error) {
+      console.log("Error al obtener el Profesor:", error);
+    }
+  };
+  // useEffect para obtener los datos al cargar la página
+  useEffect(() => {
+    fetchProfesor();
+  }, []);
+//HASTA AQUI A PARTIR DE AQUI SI HACER LO QUE SEA
   return (
     <>
       <div className="contenedor-principal">

@@ -26,14 +26,6 @@ export const MainForm = () => {
     //Inicio de sesion
     const loginUser = async (e: React.FormEvent) => {
         e.preventDefault(); // Evitar recarga de página
-        if (form.email === '' || form.password === '') {
-            alert('porfavor llene todos los campos');
-            return;
-        }
-        if (!form.email.includes('@') && !form.email.includes('.com')) {
-            alert('Correo Invalido porfavor ingrese de nuevo');
-            return;
-        }
         try {
             const response = await fetch("http://localhost:3001/api/login", {
                 method: "POST",

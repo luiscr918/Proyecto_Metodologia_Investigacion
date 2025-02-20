@@ -6,6 +6,7 @@ interface Estudiante {
   contrasenia: string;
   primer_nombre: string
   primer_apellido: string;
+  horas_totales:string;
 }
 export const Estudiantes = () => {
 

@@ -16,6 +16,7 @@ export const MainForm = () => {
         email: '',
         password: ''
     });
+    const [error, setError] = useState<string>("");
     //funcion para el cambio de valores del input
     const handleChangeForm = (name: string, value: string): void => {
         setForm({ ...form, [name]: value });
@@ -23,7 +24,8 @@ export const MainForm = () => {
 
 
     //Inicio de sesion
-    const loginUser = (): void => {
+    const loginUser = async (e: React.FormEvent) => {
+        e.preventDefault(); // Evitar recarga de página
         if (form.email === '' || form.password === '') {
             alert('porfavor llene todos los campos');
             return;
@@ -32,7 +34,28 @@ export const MainForm = () => {
             alert('Correo Invalido porfavor ingrese de nuevo');
             return;
         }
-        navigate('/estudiantes');
+        try {
+            const response = await fetch("http://localhost:3001/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: form.email, contrasenia: form.password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem("user", JSON.stringify(data.user)); // Guardar usuario
+                if (data.user.rol === "estudiante") {
+                    navigate("/estudiantes");
+                } else if (data.user.rol === "profesor") {
+                    navigate("/profesores");
+                }
+            } else {
+                setError(data.error);
+            }
+        } catch (err) {
+            setError("Error de conexión con el servidor.");
+        }
 
     }
 
@@ -47,7 +70,8 @@ export const MainForm = () => {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Sign in to your account
                             </h1>
-                            <form className="space-y-4 md:space-y-6 relative" action="#">
+                            {error && <p className="text-red-500 text-sm">{error}</p>}
+                            <form className="space-y-4 md:space-y-6 relative" onSubmit={loginUser}>
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                                     <input type="email" name="email" id="email"
@@ -78,7 +102,6 @@ export const MainForm = () => {
                                 </div>
 
                                 <button type="submit"
-                                    onClick={loginUser}
                                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300
                                   font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors duration-500 dark:bg-blue-700
                                  dark:hover:bg-blue-400 dark:focus:ring-primary-800">Sign in</button>

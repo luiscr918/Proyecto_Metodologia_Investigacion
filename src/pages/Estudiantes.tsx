@@ -60,12 +60,6 @@ export const Estudiantes = () => {
     </div>
 
     <div className="flex items-center">
-      <label className="text-lg font-semibold text-gray-700 w-32">Carrera:</label>
-      <input type="text" placeholder="Ingrese su carrera" 
-        className="flex-1 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"/>
-    </div>
-
-    <div className="flex items-center">
       <label className="text-lg font-semibold text-gray-700 w-32">Entidad:</label>
       <input type="text" placeholder="Entidad Beneficiaria" 
         className="flex-1 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"/>
@@ -77,7 +71,6 @@ export const Estudiantes = () => {
         className="flex-1 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"/>
     </div>
     
-
     <button type="submit" 
       className="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
       Enviar

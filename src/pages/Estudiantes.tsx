@@ -39,21 +39,56 @@ export const Estudiantes = () => {
 //HASTA AQUI A PARTIR DE AQUI SI HACER LO QUE SEA
 
   return (
-    <div className="container m-5">
-      <h1>Datos del Estudiante</h1>
-      {estudiante
-        ?
-        (
-          <div className="card">
-            <h3>{estudiante.ci_estudiante}</h3>
-            <h3>{estudiante.primer_nombre} {estudiante.primer_apellido}</h3>
-            <p>Email: {estudiante.email}</p>
-          </div>
-        )
-        :
-        (
-          <p>Cargando información del estudiante...</p>
-        )}
+    <>
+<header className="bg-blue-900 text-white py-4 px-6 shadow-lg flex items-center justify-between">
+  <h1 className="text-3xl font-bold">Estudiantes</h1>
+  <img src="/src/assets/imgs/logoPageProf.png" alt="Logo" className="h-20 w-20"/>
+</header>
+
+<div className="bg-gray-100 p-6 rounded-lg shadow-lg max-w-lg mx-auto mt-10">
+  <form className="space-y-4">
+    <div className="flex items-center">
+      <label className="text-lg font-semibold text-gray-700 w-32">Nombre:</label>
+      <input type="text" placeholder="Ingrese su nombre" 
+        className="flex-1 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"/>
     </div>
+
+    <div className="flex items-center">
+      <label className="text-lg font-semibold text-gray-700 w-32">Carrera:</label>
+      <input type="text" placeholder="Ingrese su carrera" 
+        className="flex-1 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"/>
+    </div>
+
+    <div className="flex items-center">
+      <label className="text-lg font-semibold text-gray-700 w-32">Carrera:</label>
+      <input type="text" placeholder="Ingrese su carrera" 
+        className="flex-1 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"/>
+    </div>
+
+    <div className="flex items-center">
+      <label className="text-lg font-semibold text-gray-700 w-32">Entidad:</label>
+      <input type="text" placeholder="Entidad Beneficiaria" 
+        className="flex-1 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"/>
+    </div>
+
+    <div className="flex items-center">
+      <label className="text-lg font-semibold text-gray-700 w-32">Horas:</label>
+      <input type="number" placeholder="Horas completadas" 
+        className="flex-1 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"/>
+    </div>
+    
+
+    <button type="submit" 
+      className="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+      Enviar
+    </button>
+  </form>
+</div>
+
+
+</>
+
   );
+  
+  
 };

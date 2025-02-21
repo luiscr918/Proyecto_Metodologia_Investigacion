@@ -16,7 +16,7 @@ async function connectDB() {
     DB = await mysql.createConnection({
       host: "localhost",
       user: "root",
-      password: "Argentina_123",
+      password: "chasi123",
       database: "vinculacion_itsqmet",
     });
     console.log("✅ Conexión a la base de datos exitosa");

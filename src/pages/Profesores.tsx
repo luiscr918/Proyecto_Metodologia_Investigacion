@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+
+
 //no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
 interface Profesor {
   ci_profesor: string;
@@ -10,7 +12,7 @@ interface Profesor {
 }
 
 export const Profesores = () => {
-//DESDE AQUI TAMPOCO BORRAR
+  //DESDE AQUI TAMPOCO BORRAR
   const [profesor, setProfesor] = useState<Profesor | null>(null);
   // Método para obtener el profesor que ha iniciado sesión
   const fetchProfesor = async () => {
@@ -36,50 +38,74 @@ export const Profesores = () => {
   useEffect(() => {
     fetchProfesor();
   }, []);
-//HASTA AQUI A PARTIR DE AQUI SI HACER LO QUE SEA
+  //HASTA AQUI A PARTIR DE AQUI SI HACER LO QUE SEA
   return (
     <>
-      <div className="contenedor-principal">
-        <div className="contenedor-info">
-          <p >PERIODO ACADEMICO</p>
-          <p>TUTOR PROF.</p>
-
+      <div className="flex flex-col items-center w-full">
+        <div className="flex justify-between items-center w-full p-6 bg-black shadow-md">
+          <div>
+            <p className="text-lg font-semibold text-white">PERIODO ACADÉMICO</p>
+            <p className="text-lg text-white ">TUTOR PROF.</p>
+          </div>
+          <div>
+            <img className="h-16" src="/src/assets/imgs/logoPageProf.png" alt="Logo ITSQMET" />
+          </div>
         </div>
-        <div className="contenedor-logo">
-          <img className="logo-img" src="/src/assets/imgs/logoPageProf.png" alt="Logo ITSQMET" />
-        </div>
-      </div>
-      {'\n'}
-      {'\n'}
-      <div className="container">
-        <div className="registro-container mx-auto">
-          <form className="mx-auto" action="/validar" method="post">
-            <h4 className="text-center textF">Registro de Prácticas Vinculación</h4>
-            <div className="mb-3 mt-3">
-              <label htmlFor="nombre" className="form-label tituloF">Hora inicio:</label>
-              <input type="number" className="form-control" name="hI" id="horaI" />
-            </div>
-            <div className="mb-3 mt-3">
-              <label className="form-label tituloF">Hora Final: </label>
-              <input type="number" className="form-control" name="hF" id="HoraF" />
+        <div className="w-full max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg">
+          <form action="/validar" method="post">
+            <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación</h4>
+
+            <div className="mb-4">
+              <label htmlFor="horaI" className="block text-gray-700 font-semibold mb-1">Hora Inicio:</label>
+              <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hI" id="horaI" />
             </div>
 
-            <div className="mb-3 mt-3">
-              <label className="form-label tituloF">Entidad Beneficiaria: </label>
-              <input type="text" className="form-control" name="eB" id="entidadB" />
+            <div className="mb-4">
+              <label htmlFor="horaF" className="block text-gray-700 font-semibold mb-1">Hora Final:</label>
+              <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hF" id="horaF" />
             </div>
 
-            <div className="mb-3 mt-3">
-              <label className="form-label tituloF">Hora Final Visita: </label>
-              <input type="number" className="form-control" name="hFv" id="horaFV" />
+            <div className="mb-4">
+              <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Entidad Beneficiaria:</label>
+              <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="eB" id="entidadB" />
             </div>
-            {'\n'}
-            <input type="submit" className="btn-primary" value="Registrar" />
-            {'\n'}
 
+            <div className="mb-4">
+              <label htmlFor="horaFV" className="block text-gray-700 font-semibold mb-1">Hora Final Visita:</label>
+              <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hFv" id="horaFV" />
+            </div>
+
+            <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">
+              Registrar
+            </button>
           </form>
         </div>
       </div>
+      <footer className="bg-black text-gray-400 py-6 text-center">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center">
+            <h2 className="text-white text-2xl font-semibold">ITSQMET</h2>
+            <p className="mt-2">
+              &copy; <span className="text-yellow-500">2025</span>. Todos los derechos reservados.{' '}
+              <span className="text-yellow-500">ITSQMET</span>.
+            </p>
+            <div className="flex space-x-4 mt-4">
+                <a href="https://www.facebook.com/@ITSQMET.UIO" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+                  <i className="fab fa-facebook-f text-xl"></i>
+                </a>
+                <a href="https://www.instagram.com/itsqmet/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+                  <i className="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="https://www.twitter.com/itsqmet/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+                  <i className="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="https://www.tiktok.com/@itsqmet" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+                  <i className="fab fa-tiktok text-xl"></i>
+                </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { IconPageEstudiante } from "../components/IconPageEstudiante";
 //no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
 interface Estudiante {
   ci_estudiante: string;
@@ -84,10 +85,11 @@ export const Estudiantes = () => {
               value={estudiante?.horas_totales}
               className="flex-1 p-3 border-2 border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900" />
           </div>
+          <IconPageEstudiante carrera={estudiante?.carrera} />
 
           <button type="button"
             onClick={returnHome}
-            className="w-full bg-gray-900 text-white py-3 rounded-lg font-bold hover:bg-blue-ring-blue-900 transition">
+            className="w-full bg-gray-900 text-white py-3 rounded-2xl font-bold hover:bg-blue-ring-blue-900 transition  ">
             Back to Home
           </button>
         </form>

@@ -56,6 +56,10 @@ export const MainForm = () => {
 
     return (
         <div className='fondoMaster'>
+            <header className="bg-gray-900 text-white py-4 px-6 shadow-lg flex items-center justify-between">
+                <h1 className="text-3xl font-bold">Welcome</h1>
+                <img src="/src/assets/imgs/logoStudents.png" alt="Logo" className="h-15 w-45 " />
+            </header>
             <section>
                 <div className="flex flex-col items-center justify-center px-6 py-8  mx-auto md:h-screen lg:py-0">
 

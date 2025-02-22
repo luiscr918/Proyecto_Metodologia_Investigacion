@@ -10,6 +10,7 @@ interface Estudiante {
   primer_apellido: string;
   horas_totales: string;
   entidad_beneficiaria: string;
+  carrera: string;
 }
 export const Estudiantes = () => {
 
@@ -66,6 +67,7 @@ export const Estudiantes = () => {
           <div className="flex items-center">
             <label className="text-lg font-semibold text-gray-700 w-32">Carrera:</label>
             <input type="text" readOnly
+              value={estudiante?.carrera}
               className="flex-1 p-3 border-2 border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900" />
           </div>
 
@@ -79,6 +81,7 @@ export const Estudiantes = () => {
           <div className="flex items-center">
             <label className="text-lg font-semibold text-gray-700 w-32">Horas Totales Completadas:</label>
             <input type="text" readOnly
+              value={estudiante?.horas_totales}
               className="flex-1 p-3 border-2 border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900" />
           </div>
 

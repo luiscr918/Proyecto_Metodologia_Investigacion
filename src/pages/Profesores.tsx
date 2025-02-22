@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { FooterComponent } from "../components/FooterComponent";
+import { Link } from "react-router-dom";
 
 
 //no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
@@ -42,13 +44,15 @@ export const Profesores = () => {
   return (
     <>
       <div className="flex flex-col items-center w-full">
-        <div className="flex justify-between items-center w-full p-6 bg-black shadow-md">
+        <div className="flex justify-between items-center w-full p-6 bg-gray-900 shadow-md">
           <div>
             <p className="text-lg font-semibold text-white">PERIODO ACADÉMICO</p>
             <p className="text-lg text-white ">TUTOR PROF.</p>
           </div>
           <div>
-            <img className="h-16" src="/src/assets/imgs/logoPageProf.png" alt="Logo ITSQMET" />
+            <Link to={'/'}>
+              <img className="h-16" src="/src/assets/imgs/logoStudents.png" alt="Logo ITSQMET" />
+            </Link>
           </div>
         </div>
         <div className="w-full max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg">
@@ -81,31 +85,7 @@ export const Profesores = () => {
           </form>
         </div>
       </div>
-      <footer className="bg-black text-gray-400 py-6 text-center">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center">
-            <h2 className="text-white text-2xl font-semibold">ITSQMET</h2>
-            <p className="mt-2">
-              &copy; <span className="text-yellow-500">2025</span>. Todos los derechos reservados.{' '}
-              <span className="text-yellow-500">ITSQMET</span>.
-            </p>
-            <div className="flex space-x-4 mt-4">
-                <a href="https://www.facebook.com/@ITSQMET.UIO" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
-                  <i className="fab fa-facebook-f text-xl"></i>
-                </a>
-                <a href="https://www.instagram.com/itsqmet/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
-                  <i className="fab fa-instagram text-xl"></i>
-                </a>
-                <a href="https://www.twitter.com/itsqmet/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
-                  <i className="fab fa-twitter text-xl"></i>
-                </a>
-                <a href="https://www.tiktok.com/@itsqmet" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
-                  <i className="fab fa-tiktok text-xl"></i>
-                </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <FooterComponent />
     </>
   )
 }

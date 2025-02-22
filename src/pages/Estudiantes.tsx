@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { IconPageEstudiante } from "../components/IconPageEstudiante";
+import { FooterComponent } from "../components/FooterComponent";
+import { HeaderComponent } from '../components/HeaderComponent';
 //no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
 interface Estudiante {
   ci_estudiante: string;
@@ -49,12 +50,7 @@ export const Estudiantes = () => {
   }
   return (
     <>
-      <header className="bg-gray-900 text-white py-4 px-6 shadow-lg flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Estudiantes</h1>
-        <Link to={'/'}>
-          <img src="/src/assets/imgs/logoStudents.png" alt="Logo" className="h-15 w-45 " />
-        </Link>
-      </header>
+      <HeaderComponent title="Estudiantes" />
 
       <div className="bg-gray-100 p-6 rounded-lg shadow-lg max-w-lg mx-auto mt-10">
         <form className="space-y-4">
@@ -94,6 +90,7 @@ export const Estudiantes = () => {
           </button>
         </form>
       </div>
+      <FooterComponent />
     </>
   );
 };

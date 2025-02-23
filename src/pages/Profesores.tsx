@@ -68,7 +68,7 @@ export const Profesores = () => {
             setError('Error al obtener la dirección');
           }
         },
-        (err) => {
+        () => {
           setError('No se pudo obtener la ubicación');
         }
       );

@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { FooterComponent } from "../components/FooterComponent";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Estudiante } from "./Estudiantes";
 
-
-//no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
+//no borrar esto, es lo que me permite obtener datos del profesor desde la DB
 interface Profesor {
   ci_profesor: string;
   ci_estudiante: string;
   email: string;
   contrasenia: string;
-  primer_nombre: string
+  primer_nombre: string;
   primer_apellido: string;
 }
 
@@ -48,11 +47,15 @@ export const Profesores = () => {
       console.log("Error al obtener el Profesor:", error);
     }
   };
-  // useEffect para obtener los datos al cargar la página
+  // useEffect para obtener los datos del profesor al cargar la página
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchProfesor();
-      if (profesor && profesor.ci_estudiante) {
+    fetchProfesor();
+  }, []);
+
+  // Nuevo useEffect para obtener los datos del estudiante cuando `profesor` cambie
+  useEffect(() => {
+    const fetchEstudiante = async () => {
+      if (profesor?.ci_estudiante) {
         try {
           const response = await fetch(`http://localhost:3001/api/estudiantes/${profesor.ci_estudiante}`);
           if (!response.ok) {
@@ -65,8 +68,8 @@ export const Profesores = () => {
         }
       }
     };
-    fetchData();
-  }, [profesor]);
+    fetchEstudiante();
+  }, [profesor]); // Se ejecuta cada vez que `profesor` cambie
   //HASTA AQUI A PARTIR DE AQUI SI HACER LO QUE SEA
   // Método para obtener la ubicación
   const obtenerUbicacion = () => {
@@ -121,6 +124,63 @@ export const Profesores = () => {
   useEffect(() => {
     calcularTiempoTotal();
   }, [horaInicio, horaFin]);
+  //funcion para editar informacion en la tabla de profesores BD
+  const handleSubmitProfesor = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!tiempoTotal || !ubicacion) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
+
+    try {
+      const response = await axios.put(`http://localhost:3001/api/profesores/${profesor?.ci_profesor}`, {
+        total_tiempo_visita: tiempoTotal,
+        ubicacion_visita: ubicacion,
+      });
+
+      if (response.status === 200) {
+        alert("Datos del profesor actualizados exitosamente.");
+      }
+    } catch (error) {
+      const err = error as any;
+      console.error("Error al actualizar los datos del profesor:", err.response ? err.response.data : err.message);
+      alert(`Hubo un error al actualizar los datos del profesor frontend: ${err.response ? err.response.data.error : err.message}`);
+    }
+  };
+  //funcion para editar informacion de la tabla de estudiantes BD
+  const handleSubmitEstudiante = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const horasVinculacion = e.currentTarget.querySelector<HTMLInputElement>('input[name="horasVinculacion"]')?.value;
+
+    if (!horasVinculacion) {
+      alert("Por favor, ingresa las horas de vinculación.");
+      return;
+    }
+
+    // Convertir el valor a número
+    const horasVinculacionNumero = parseFloat(horasVinculacion);
+
+    if (isNaN(horasVinculacionNumero)) {
+      alert("Por favor, ingresa un valor numérico válido.");
+      return;
+    }
+
+    try {
+      const response = await axios.put(`http://localhost:3001/api/estudiantes/${estudiante?.ci_estudiante}`, {
+        horas_totales: horasVinculacionNumero, // Enviar el valor convertido a número
+      });
+
+      if (response.status === 200) {
+        alert("Horas de vinculación actualizadas exitosamente.");
+      }
+    } catch (error) {
+      const err = error as any;
+      console.error("Error al actualizar las horas de vinculación:", err.response ? err.response.data : err.message);
+      alert(`Hubo un error al actualizar las horas de vinculación: ${err.response ? err.response.data.error : err.message}`);
+    }
+  };
   return (
     <>
       <div className="flex flex-col items-center w-full">
@@ -129,14 +189,14 @@ export const Profesores = () => {
             <div className="flex flex-row gap-4 ">
               <p className="text-lg font-semibold text-white ">PERIODO ACADÉMICO</p>
               <input value={estudiante?.periodo_academico}
-                type="text" className="bg-white pl-2" readOnly
+                type="text" className="bg-white pl-2" readOnly name="periodoAcademico" id="periodoAcademico"
               />
             </div>
             <br />
             <div className="flex flex-row gap-4">
               <p className="text-lg text-white mr-4 ">NOMBRE DEL TUTOR</p>
               <input type="text" className="bg-white pl-2" readOnly
-                value={profesor?.primer_nombre.concat(' ', profesor.primer_apellido)}
+                value={profesor?.primer_nombre.concat(' ', profesor.primer_apellido)} name="nombreTutor" id="nombreTutor"
               />
             </div>
 
@@ -149,15 +209,15 @@ export const Profesores = () => {
             </Link>
           </div>
         </div>
-        <div className="flex flex-row ">
-          <div className="w-full  max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg mr-16">
-            <form action="/validar" method="post">
+        <div className="flex flex-col lg:flex-row ">
+          <div className="w-full max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg lg:mr-16">
+            <form onSubmit={handleSubmitProfesor} >
               <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación/Profesor</h4>
               <div className="mb-4">
-                <label htmlFor="studentAsig" className="block text-gray-700 font-semibold mb-1" >Estudiante Asignado:</label>
+                <label htmlFor="estudianteAsignado" className="block text-gray-700 font-semibold mb-1" >Estudiante Asignado:</label>
                 <input type="text"
                   value={estudiante?.primer_nombre.concat(' ', estudiante.primer_apellido)}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eA" id="studentAsig" />
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="estudianteAsignado" id="estudianteAsignado" />
               </div>
 
               <div className="mb-4">
@@ -180,19 +240,19 @@ export const Profesores = () => {
                 {error && <p className="text-red-500 mt-2">{error}</p>}
               </div>
               <div className="mb-4">
-                <label htmlFor="horaI" className="block text-gray-700 font-semibold mb-1">Hora de Inicio de la visita:</label>
+                <label htmlFor="horaInicio" className="block text-gray-700 font-semibold mb-1">Hora de Inicio de la visita:</label>
                 <input type="time"
                   value={horaInicio}
                   onChange={(e) => setHoraInicio(e.target.value)}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hI" id="horaI" />
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="horaInicio" id="horaInicio" />
               </div>
 
               <div className="mb-4">
-                <label htmlFor="horaF" className="block text-gray-700 font-semibold mb-1">Hora Final de la visita:</label>
+                <label htmlFor="horaFin" className="block text-gray-700 font-semibold mb-1">Hora Final de la visita:</label>
                 <input type="time"
                   value={horaFin}
                   onChange={(e) => setHoraFin(e.target.value)}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hF" id="horaF" />
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="horaFin" id="horaFin" />
               </div>
 
 
@@ -200,7 +260,7 @@ export const Profesores = () => {
                 <label htmlFor="horaFV" className="block text-gray-700 font-semibold mb-1">Tiempo total de  Visita:</label>
                 <input type="number"
                   value={tiempoTotal || ''}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hFv" id="horaFV" readOnly />
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="horaFV" id="horaFV" readOnly />
               </div>
 
               <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">
@@ -208,29 +268,46 @@ export const Profesores = () => {
               </button>
             </form>
           </div>
-          <div className="w-full  max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg ">
-            <form action="/validar" method="post">
+          <div className="w-full max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg">
+            <form onSubmit={handleSubmitEstudiante} >
               <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación/Estudiante</h4>
 
               <div className="mb-4">
                 <label htmlFor="ciEstudiante" className="block text-gray-700 font-semibold mb-1">Cédula del estudiante:</label>
-                <input type="text"
+                <input
+                  type="text"
                   value={estudiante?.ci_estudiante}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="ciE" id="ciEstudiante" />
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  name="ciEstudiante"
+                  id="ciEstudiante"
+                />
               </div>
               <div className="mb-4">
-                <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Entidad Beneficiaria:</label>
-                <input type="text"
+                <label htmlFor="entidadBeneficiaria" className="block text-gray-700 font-semibold mb-1">Entidad Beneficiaria:</label>
+                <input
+                  type="text"
                   value={estudiante?.entidad_beneficiaria}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eB" id="entidadB" />
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  readOnly
+                  name="entidadBeneficiaria"
+                  id="entidadBeneficiaria"
+                />
               </div>
 
               <div className="mb-4">
-                <label htmlFor="horasVin" className="block text-gray-700 font-semibold mb-1">Registro de horas de vinculación:</label>
-                <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hV" id="horasVin" />
+                <label htmlFor="horasVinculacion" className="block text-gray-700 font-semibold mb-1">Registro de horas de vinculación:</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  name="horasVinculacion"
+                  id="horasVinculacion"
+                />
               </div>
 
-              <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition"
+              >
                 Registrar
               </button>
             </form>

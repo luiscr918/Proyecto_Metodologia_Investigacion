@@ -12,7 +12,7 @@ export interface Estudiante {
   primer_apellido: string;
   horas_totales: string;
   entidad_beneficiaria: string;
-  periodo_academico:string;
+  periodo_academico: string;
   carrera: string;
 }
 export const Estudiantes = () => {

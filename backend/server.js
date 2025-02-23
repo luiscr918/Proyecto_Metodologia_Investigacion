@@ -29,7 +29,7 @@ async function connectDB() {
 // Ruta GET para obtener la información de un estudiante específico
 app.get("/api/estudiantes/:ci_estudiante", async (req, res) => {
   const { ci_estudiante } = req.params;
-  
+
   try {
     const [estudiante] = await DB.query(
       "SELECT * FROM estudiantes WHERE ci_estudiante = ?",
@@ -49,7 +49,7 @@ app.get("/api/estudiantes/:ci_estudiante", async (req, res) => {
 // Ruta GET para obtener la información de un profesor específico
 app.get("/api/profesores/:ci_profesor", async (req, res) => {
   const { ci_profesor } = req.params;
-  
+
   try {
     const [profesor] = await DB.query(
       "SELECT * FROM profesores WHERE ci_profesor = ?",
@@ -66,7 +66,6 @@ app.get("/api/profesores/:ci_profesor", async (req, res) => {
     res.status(500).json({ error: "Error al procesar la solicitud" });
   }
 });
-
 
 // Ruta POST para login
 app.post("/api/login", async (req, res) => {
@@ -99,7 +98,56 @@ app.post("/api/login", async (req, res) => {
     return res.status(500).json({ error: "Error al procesar la solicitud" });
   }
 });
+// Ruta PUT para actualizar la información de un profesor específico
+app.put("/api/profesores/:ci_profesor", async (req, res) => {
+  const { ci_profesor } = req.params;
+  const { total_tiempo_visita, ubicacion_visita } = req.body;
 
+  try {
+    const [result] = await DB.query(
+      "UPDATE profesores SET total_tiempo_visita = ?, ubicacion_visita = ? WHERE ci_profesor = ?",
+      [total_tiempo_visita, ubicacion_visita, ci_profesor]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Profesor no encontrado" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Datos del profesor actualizados exitosamente." });
+  } catch (err) {
+    console.error("Error al actualizar los datos del profesor:", err);
+    res
+      .status(500)
+      .json({ error: "Error al actualizar los datos del profesor." });
+  }
+});
+// Ruta PUT para actualizar la información de un estudiante específico
+app.put("/api/estudiantes/:ci_estudiante", async (req, res) => {
+  const { ci_estudiante } = req.params;
+  const { horas_totales } = req.body;
+
+  try {
+    const [result] = await DB.query(
+      "UPDATE estudiantes SET horas_totales = ? WHERE ci_estudiante = ?",
+      [horas_totales, ci_estudiante]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Estudiante no encontrado" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Horas de vinculación actualizadas exitosamente." });
+  } catch (err) {
+    console.error("Error al actualizar las horas de vinculación:", err);
+    res
+      .status(500)
+      .json({ error: "Error al actualizar las horas de vinculación." });
+  }
+});
 
 // Conectar a la base de datos y luego iniciar el servidor
 connectDB().then(() => {

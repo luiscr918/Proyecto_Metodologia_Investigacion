@@ -104,18 +104,25 @@ export const Profesores = () => {
   //funcion para calculo de horas
   const calcularTiempoTotal = () => {
     if (horaInicio && horaFin) {
-      // Convertir las horas de inicio y fin a objetos Date
-      const inicio = new Date(`1970-01-01T${horaInicio}:00`);
-      const fin = new Date(`1970-01-01T${horaFin}:00`);
+      // Convertir las horas de inicio y fin a números
+      const [horaInicioHoras, horaInicioMinutos] = horaInicio.split(':').map(Number);
+      const [horaFinHoras, horaFinMinutos] = horaFin.split(':').map(Number);
 
-      // Calcular la diferencia en milisegundos
-      const diferenciaMs = fin.getTime() - inicio.getTime();
+      // Calcular la diferencia en horas y minutos
+      let diferenciaHoras = horaFinHoras - horaInicioHoras;
+      let diferenciaMinutos = horaFinMinutos - horaInicioMinutos;
 
-      // Convertir la diferencia a horas (en formato decimal)
-      const horasDecimales = (diferenciaMs / (1000 * 60 * 60)).toFixed(2); // Redondear a 2 decimales
+      // Ajustar las horas y minutos si los minutos son negativos
+      if (diferenciaMinutos < 0) {
+        diferenciaHoras -= 1;
+        diferenciaMinutos += 60;
+      }
+
+      // Convertir la diferencia a horas en formato decimal
+      const horasDecimales = diferenciaHoras + (diferenciaMinutos / 60);
 
       // Actualizar el estado del tiempo total
-      setTiempoTotal(parseFloat(horasDecimales));
+      setTiempoTotal(parseFloat(horasDecimales.toFixed(2)));
     } else {
       setTiempoTotal(null);
     }

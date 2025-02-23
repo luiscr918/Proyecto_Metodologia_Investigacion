@@ -4,7 +4,7 @@ import { IconPageEstudiante } from "../components/IconPageEstudiante";
 import { FooterComponent } from "../components/FooterComponent";
 import { HeaderComponent } from '../components/HeaderComponent';
 //no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
-interface Estudiante {
+export interface Estudiante {
   ci_estudiante: string;
   email: string;
   contrasenia: string;
@@ -12,6 +12,7 @@ interface Estudiante {
   primer_apellido: string;
   horas_totales: string;
   entidad_beneficiaria: string;
+  periodo_academico:string;
   carrera: string;
 }
 export const Estudiantes = () => {

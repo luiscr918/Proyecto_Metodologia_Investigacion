@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { FooterComponent } from "../components/FooterComponent";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Estudiante } from "./Estudiantes";
 
 
 //no borrar esto, es lo que me permite obtener datos del profesor desde  la DB
@@ -15,6 +16,8 @@ interface Profesor {
 }
 
 export const Profesores = () => {
+  //Manejo de datos de Estudiante asignado
+  const [estudiante, setEstudiante] = useState<Estudiante | null>(null);
   //DESDE AQUI TAMPOCO BORRAR
   const [profesor, setProfesor] = useState<Profesor | null>(null);
   //para la ubicacion
@@ -43,8 +46,23 @@ export const Profesores = () => {
   };
   // useEffect para obtener los datos al cargar la página
   useEffect(() => {
-    fetchProfesor();
-  }, []);
+    const fetchData = async () => {
+      await fetchProfesor();
+      if (profesor && profesor.ci_estudiante) {
+        try {
+          const response = await fetch(`http://localhost:3001/api/estudiantes/${profesor.ci_estudiante}`);
+          if (!response.ok) {
+            throw new Error("Error al obtener los datos del estudiante");
+          }
+          const data = await response.json();
+          setEstudiante(data);
+        } catch (error) {
+          console.log("Error al obtener el Estudiante:", error);
+        }
+      }
+    };
+    fetchData();
+  }, [profesor]);
   //HASTA AQUI A PARTIR DE AQUI SI HACER LO QUE SEA
   // Método para obtener la ubicación
   const obtenerUbicacion = () => {
@@ -83,7 +101,8 @@ export const Profesores = () => {
           <div >
             <div className="flex flex-row gap-4 ">
               <p className="text-lg font-semibold text-white ">PERIODO ACADÉMICO</p>
-              <input type="text" className="bg-white pl-2" readOnly
+              <input value={estudiante?.periodo_academico}
+                type="text" className="bg-white pl-2" readOnly
               />
             </div>
             <br />
@@ -109,7 +128,9 @@ export const Profesores = () => {
               <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación/Profesor</h4>
               <div className="mb-4">
                 <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1" >Estudiante Asignado:</label>
-                <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eB" id="entidadB" />
+                <input type="text"
+                  value={estudiante?.primer_nombre.concat(' ', estudiante.primer_apellido)}
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eB" id="entidadB" />
               </div>
 
               <div className="mb-4">
@@ -155,9 +176,18 @@ export const Profesores = () => {
           <div className="w-full  max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg ">
             <form action="/validar" method="post">
               <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación/Estudiante</h4>
+
+              <div className="mb-4">
+                <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Cédula del estudiante:</label>
+                <input type="text"
+                  value={estudiante?.ci_estudiante}
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="eB" id="entidadB" />
+              </div>
               <div className="mb-4">
                 <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Entidad Beneficiaria:</label>
-                <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eB" id="entidadB" />
+                <input type="text"
+                  value={estudiante?.entidad_beneficiaria}
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eB" id="entidadB" />
               </div>
 
               <div className="mb-4">

@@ -154,10 +154,10 @@ export const Profesores = () => {
             <form action="/validar" method="post">
               <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación/Profesor</h4>
               <div className="mb-4">
-                <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1" >Estudiante Asignado:</label>
+                <label htmlFor="studentAsig" className="block text-gray-700 font-semibold mb-1" >Estudiante Asignado:</label>
                 <input type="text"
                   value={estudiante?.primer_nombre.concat(' ', estudiante.primer_apellido)}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eB" id="entidadB" />
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eA" id="studentAsig" />
               </div>
 
               <div className="mb-4">
@@ -213,10 +213,10 @@ export const Profesores = () => {
               <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación/Estudiante</h4>
 
               <div className="mb-4">
-                <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Cédula del estudiante:</label>
+                <label htmlFor="ciEstudiante" className="block text-gray-700 font-semibold mb-1">Cédula del estudiante:</label>
                 <input type="text"
                   value={estudiante?.ci_estudiante}
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="eB" id="entidadB" />
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="ciE" id="ciEstudiante" />
               </div>
               <div className="mb-4">
                 <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Entidad Beneficiaria:</label>
@@ -226,8 +226,8 @@ export const Profesores = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Registro de horas de vinculación:</label>
-                <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="eB" id="entidadB" />
+                <label htmlFor="horasVin" className="block text-gray-700 font-semibold mb-1">Registro de horas de vinculación:</label>
+                <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hV" id="horasVin" />
               </div>
 
               <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">

@@ -103,61 +103,73 @@ export const Profesores = () => {
             </Link>
           </div>
         </div>
-        <div className="w-full max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg">
-          <form action="/validar" method="post">
-            <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación</h4>
-            <div className="mb-4">
-              <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Estudiante Asignado:</label>
-              <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="eB" id="entidadB" />
-            </div>
+        <div className="flex flex-row ">
+          <div className="w-full  max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg mr-16">
+            <form action="/validar" method="post">
+              <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación/Profesor</h4>
+              <div className="mb-4">
+                <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1" >Estudiante Asignado:</label>
+                <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eB" id="entidadB" />
+              </div>
 
-            <div className="mb-4">
-              <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Entidad Beneficiaria:</label>
-              <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="eB" id="entidadB" />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="ubicacion" className="block text-gray-700 font-semibold mb-1">Ubicación:</label>
-              <input
-                type="text"
-                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                name="ubicacion"
-                id="ubicacion"
-                value={ubicacion}
-                readOnly
-              />
-              <button
-                type="button"
-                className="mt-2 w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition"
-                onClick={obtenerUbicacion}
-              >
-                Obtener Ubicación
+              <div className="mb-4">
+                <label htmlFor="ubicacion" className="block text-gray-700 font-semibold mb-1" >Ubicación:</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  name="ubicacion"
+                  id="ubicacion"
+                  value={ubicacion}
+                  readOnly
+                />
+                <button
+                  type="button"
+                  className="mt-2 w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition"
+                  onClick={obtenerUbicacion}
+                >
+                  Obtener Ubicación
+                </button>
+                {error && <p className="text-red-500 mt-2">{error}</p>}
+              </div>
+              <div className="mb-4">
+                <label htmlFor="horaI" className="block text-gray-700 font-semibold mb-1">Hora de Inicio de la visita:</label>
+                <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hI" id="horaI" />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="horaF" className="block text-gray-700 font-semibold mb-1">Hora Final de la visita:</label>
+                <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hF" id="horaF" />
+              </div>
+
+
+              <div className="mb-4">
+                <label htmlFor="horaFV" className="block text-gray-700 font-semibold mb-1">Tiempo total de  Visita:</label>
+                <input type="number" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hFv" id="horaFV" readOnly />
+              </div>
+
+              <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">
+                Registrar
               </button>
-              {error && <p className="text-red-500 mt-2">{error}</p>}
-            </div>
-            <div className="mb-4">
-              <label htmlFor="horaI" className="block text-gray-700 font-semibold mb-1">Hora de Inicio de la visita:</label>
-              <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hI" id="horaI" />
-            </div>
+            </form>
+          </div>
+          <div className="w-full  max-w-lg p-6 mt-6 bg-white shadow-lg rounded-lg ">
+            <form action="/validar" method="post">
+              <h4 className="text-center text-xl font-bold text-gray-700 mb-6">Registro de Prácticas Vinculación/Estudiante</h4>
+              <div className="mb-4">
+                <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Entidad Beneficiaria:</label>
+                <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" readOnly name="eB" id="entidadB" />
+              </div>
 
-            <div className="mb-4">
-              <label htmlFor="horaF" className="block text-gray-700 font-semibold mb-1">Hora Final de la visita:</label>
-              <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hF" id="horaF" />
-            </div>
+              <div className="mb-4">
+                <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Registro de horas de vinculación:</label>
+                <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="eB" id="entidadB" />
+              </div>
 
-
-            <div className="mb-4">
-              <label htmlFor="horaFV" className="block text-gray-700 font-semibold mb-1">Tiempo total de  Visita:</label>
-              <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hFv" id="horaFV" />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="entidadB" className="block text-gray-700 font-semibold mb-1">Registro de horas de vinculación:</label>
-              <input type="text" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="eB" id="entidadB" />
-            </div>
-
-            <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">
-              Registrar
-            </button>
-          </form>
+              <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">
+                Registrar
+              </button>
+            </form>
+          </div>
         </div>
       </div>
       <FooterComponent />

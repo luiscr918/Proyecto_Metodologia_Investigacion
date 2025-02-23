@@ -18,6 +18,10 @@ interface Profesor {
 export const Profesores = () => {
   //Manejo de datos de Estudiante asignado
   const [estudiante, setEstudiante] = useState<Estudiante | null>(null);
+  //para el calculo de horas
+  const [horaInicio, setHoraInicio] = useState<string>('');
+  const [horaFin, setHoraFin] = useState<string>('');
+  const [tiempoTotal, setTiempoTotal] = useState<number | null>(null);
   //DESDE AQUI TAMPOCO BORRAR
   const [profesor, setProfesor] = useState<Profesor | null>(null);
   //para la ubicacion
@@ -94,6 +98,29 @@ export const Profesores = () => {
       setError('La geolocalización no es compatible con este navegador');
     }
   };
+  //funcion para calculo de horas
+  const calcularTiempoTotal = () => {
+    if (horaInicio && horaFin) {
+      // Convertir las horas de inicio y fin a objetos Date
+      const inicio = new Date(`1970-01-01T${horaInicio}:00`);
+      const fin = new Date(`1970-01-01T${horaFin}:00`);
+
+      // Calcular la diferencia en milisegundos
+      const diferenciaMs = fin.getTime() - inicio.getTime();
+
+      // Convertir la diferencia a horas (en formato decimal)
+      const horasDecimales = (diferenciaMs / (1000 * 60 * 60)).toFixed(2); // Redondear a 2 decimales
+
+      // Actualizar el estado del tiempo total
+      setTiempoTotal(parseFloat(horasDecimales));
+    } else {
+      setTiempoTotal(null);
+    }
+  };
+  //Usa un useEffect para llamar a la función calcularTiempoTotal cada vez que cambien horaInicio o horaFin.
+  useEffect(() => {
+    calcularTiempoTotal();
+  }, [horaInicio, horaFin]);
   return (
     <>
       <div className="flex flex-col items-center w-full">
@@ -154,18 +181,26 @@ export const Profesores = () => {
               </div>
               <div className="mb-4">
                 <label htmlFor="horaI" className="block text-gray-700 font-semibold mb-1">Hora de Inicio de la visita:</label>
-                <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hI" id="horaI" />
+                <input type="time"
+                  value={horaInicio}
+                  onChange={(e) => setHoraInicio(e.target.value)}
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hI" id="horaI" />
               </div>
 
               <div className="mb-4">
                 <label htmlFor="horaF" className="block text-gray-700 font-semibold mb-1">Hora Final de la visita:</label>
-                <input type="time" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hF" id="horaF" />
+                <input type="time"
+                  value={horaFin}
+                  onChange={(e) => setHoraFin(e.target.value)}
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hF" id="horaF" />
               </div>
 
 
               <div className="mb-4">
                 <label htmlFor="horaFV" className="block text-gray-700 font-semibold mb-1">Tiempo total de  Visita:</label>
-                <input type="number" className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hFv" id="horaFV" readOnly />
+                <input type="number"
+                  value={tiempoTotal || ''}
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" name="hFv" id="horaFV" readOnly />
               </div>
 
               <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition">

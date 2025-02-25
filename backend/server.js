@@ -157,6 +157,86 @@ app.put("/api/estudiantes/:ci_estudiante", async (req, res) => {
       .json({ error: "Error al actualizar las horas de vinculación." });
   }
 });
+// Ruta GET para obtener todos los estudiantes
+app.get("/api/estudiantes", async (req, res) => {
+  try {
+    const [estudiantes] = await DB.query("SELECT * FROM estudiantes");
+    res.json(estudiantes);
+  } catch (err) {
+    console.error("Error en la consulta:", err);
+    res.status(500).json({ error: "Error al procesar la solicitud" });
+  }
+});
+
+// Ruta POST para agregar un nuevo estudiante
+app.post("/api/estudiantes", async (req, res) => {
+  const {
+    ci_estudiante,
+    primer_nombre,
+    primer_apellido,
+    entidad_beneficiaria,
+    carrera,
+    rol,
+    periodo_academico,
+    email,
+    contrasenia,
+  } = req.body;
+
+  try {
+    const [result] = await DB.query(
+      "INSERT INTO estudiantes (ci_estudiante, primer_nombre, primer_apellido, entidad_beneficiaria, carrera, rol, periodo_academico, email, contrasenia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        ci_estudiante,
+        primer_nombre,
+        primer_apellido,
+        entidad_beneficiaria,
+        carrera,
+        rol,
+        periodo_academico,
+        email,
+        contrasenia,
+      ]
+    );
+
+    res.status(201).json({ message: "Estudiante registrado exitosamente." });
+  } catch (err) {
+    console.error("Error al registrar el estudiante:", err);
+    res.status(500).json({ error: "Error al registrar el estudiante." });
+  }
+});
+
+// Ruta POST para agregar un nuevo profesor
+app.post("/api/profesores", async (req, res) => {
+  const {
+    ci_profesor,
+    ci_estudiante,
+    primer_nombre,
+    primer_apellido,
+    rol,
+    email,
+    contrasenia,
+  } = req.body;
+
+  try {
+    const [result] = await DB.query(
+      "INSERT INTO profesores (ci_profesor, ci_estudiante, primer_nombre, primer_apellido, rol, email, contrasenia) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [
+        ci_profesor,
+        ci_estudiante,
+        primer_nombre,
+        primer_apellido,
+        rol,
+        email,
+        contrasenia,
+      ]
+    );
+
+    res.status(201).json({ message: "Profesor registrado exitosamente." });
+  } catch (err) {
+    console.error("Error al registrar el profesor:", err);
+    res.status(500).json({ error: "Error al registrar el profesor." });
+  }
+});
 
 // Conectar a la base de datos y luego iniciar el servidor
 connectDB().then(() => {

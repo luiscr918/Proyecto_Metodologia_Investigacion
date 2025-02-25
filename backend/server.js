@@ -91,6 +91,15 @@ app.post("/api/login", async (req, res) => {
     if (profesores.length > 0) {
       return res.json({ message: "Login exitoso", user: profesores[0] });
     }
+    // Buscar en la tabla admin"
+    const [admin] = await DB.query(
+      "SELECT * FROM admin WHERE email = ? AND contrasenia = ?",
+      [email, contrasenia]
+    );
+
+    if (admin.length > 0) {
+      return res.json({ message: "Login exitoso", user: admin[0] });
+    }
 
     return res.status(401).json({ error: "Credenciales incorrectas" });
   } catch (err) {

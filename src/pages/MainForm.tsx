@@ -45,6 +45,9 @@ export const MainForm = () => {
                 } else if (data.user.rol === "profesor") {
                     localStorage.setItem("ci_profesor", data.user.ci_profesor); // Guardar CI del profesor
                     navigate("/profesores");
+                } else if (data.user.rol === "admin") {
+                    localStorage.setItem("ci_profesor", data.user.ci_profesor); // Guardar CI del profesor
+                    navigate("/admin");
                 }
             } else {
                 setError(data.error);
